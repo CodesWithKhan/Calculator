@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator-App </title>
+    <style>
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .calcu {
+            background-color: rgb(9, 32, 3);
+            height: 500px;
+            width: 350px;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin: 20px 10px;
+            width: 320px;
+            height: 45px;
+            border-radius: 10px;
+            background-color: #fff;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .body {
+            margin: 30px 20px;
+        }
+
+        .body button {
+            cursor: pointer;
+            width: 60px;
+            height: 50px;
+            margin: 10px 5px;
+            font-size: 25px;
+            border-radius: 10px;
+        }
+
+        .body #equal {
+            width: 110px;
+            font-weight: bolder;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-left: 31px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <h1>calculator</h1>
+        <div class="calcu">
+            <div class="header">
+                <div id="result">
+                    <p id="resultt"></p>
+                </div>
+                <hr>
+            </div>
+            <div class="body">
+                <button id="clear">C</button>
+                <button>/</button>
+                <button>*</button>
+                <button><</button>
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+                <button>-</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>+</button>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>%</button>
+                <button>0</button>
+                <button>.</button>
+                <button id="equal">=</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        buttons = document.querySelectorAll("button")
+        var resultPage = document.getElementById("resultt");
+
+        buttons = document.querySelectorAll("button");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                if (btn.textContent === "=") {
+                    try {
+                        const expression = resultPage.textContent;
+
+                        // Enforce order of operations using parentheses: 
+                        const fixedExpression = expression.replace(/(\d+)\s*([*/])\s*(\d+)/g, "($1$2$3)");
+                        // Using eval better is new function using speed and security level
+                        const finalResult = new Function('return ' + fixedExpression)();
+                        resultPage.textContent = ` ${resultPage.textContent} = ` + finalResult;
+
+                    } catch (error) {
+                        resultPage.textContent = "Error"; // Handle evaluation errors
+                    }
+
+                } else if (btn.textContent === "C") {
+                    resultPage.textContent = "";
+
+                } else if (btn.textContent === "<") {
+                    resultPage.textContent = resultPage.textContent.slice(0, -1);
+
+                } else {
+                    resultPage.textContent += btn.textContent; // Append digits and operators
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
